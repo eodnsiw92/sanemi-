@@ -9,26 +9,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
-    - name: Install dependencies
+    - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5 ncurses-dev libstdc++6 libffi-dev libssl-dev
-        pip install --upgrade pip
-        pip install buildozer cython==0.29.36 kivy yt-dlp
+        sudo apt-get install -y \
+          git wget curl unzip libltdl-dev \
+          openjdk-17-jdk autoconf libtool pkg-config \
+          zlib1g-dev libncurses5 ncurses-dev libstdc++6 \
+          libffi-dev libssl-dev autopoint libffi7
 
-    - name: Build with Buildozer
+    - name: Install Buildozer and Dependencies
+      run: |
+        pip install --upgrade pip
+        pip install --user --upgrade Cython==0.29.36 buildozer kivy yt-dlp
+
+    - name: Build APK with Buildozer
       run: |
         buildozer -v android debug
 
-    - name: Upload APK artifact
+    - name: Upload APK Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: sanemi-downloader-apk
+        name: sanemi-apk
         path: bin/*.apk
