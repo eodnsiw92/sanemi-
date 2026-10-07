@@ -27,14 +27,12 @@ jobs:
 
     - name: Install System Dependencies
       run: |
-        sudo dpkg --add-architecture i386
         sudo apt-get update
         sudo apt-get install -y \
           git wget curl unzip libltdl-dev \
           openjdk-17-jdk autoconf libtool pkg-config \
-          zlib1g-dev libncurses5 ncurses-dev libstdc++6 \
-          libffi-dev libssl-dev autopoint libffi7 \
-          libxml2-dev libxslt1-dev zlib1g:i386 libstdc++6:i386
+          zlib1g-dev libncurses-dev libstdc++6 \
+          libffi-dev libssl-dev autopoint
 
     - name: Install Python Build Tools & Dependencies
       run: |
